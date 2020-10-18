@@ -38,7 +38,6 @@ export const render =
     (result: unknown,
      container: Element|DocumentFragment,
      options?: Partial<RenderOptions>) => {
-      //  debugger;
       //判断是否存在dom容器 有则更新无则创建
       let part = parts.get(container);
       if (!part) {
