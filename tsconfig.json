@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "lib": ["esnext","dom"],
+        "declaration": true,
+        "target": "es6",
+        "module": "es6",
+        "outDir": "./dist/",
+        "strict": false,
+        "esModuleInterop": true,
+        "experimentalDecorators": true
+    }
+}
