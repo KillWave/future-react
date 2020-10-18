@@ -11,7 +11,7 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { TemplateFactory } from '../template-cache.js';
+import { TemplateFactory } from '../template-cache';
 export interface RenderOptions {
     readonly templateFactory: TemplateFactory;
     readonly eventContext?: EventTarget;

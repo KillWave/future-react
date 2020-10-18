@@ -11,8 +11,8 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { NodePart } from './parts.js';
-import { RenderOptions } from './interface/render-options.js';
+import { NodePart } from './parts';
+import { RenderOptions } from './interface/render-options';
 export declare const parts: WeakMap<Node, NodePart>;
 /**
  * 向容器呈现模板结果或其他值.

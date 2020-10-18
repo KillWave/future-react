@@ -11,7 +11,7 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { Template } from './template.js';
+import { Template } from './template';
 /**
  * Removes the list of nodes from a Template safely. In addition to removing
  * nodes from the Template, the Template part indices are updated to match

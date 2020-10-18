@@ -11,8 +11,8 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { Part } from './interface/part.js';
-import { RenderOptions } from './interface/render-options.js';
+import { Part } from './interface/part';
+import { RenderOptions } from './interface/render-options';
 export declare type Primitive = null | undefined | boolean | number | string | symbol | bigint;
 export declare const isPrimitive: (value: unknown) => value is Primitive;
 export declare const isIterable: (value: unknown) => value is Iterable<unknown>;

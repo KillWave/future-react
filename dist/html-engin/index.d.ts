@@ -1,4 +1,4 @@
-import { SVGTemplateResult, TemplateResult } from './template-result.js';
+import { SVGTemplateResult, TemplateResult } from './template-result';
 export declare const html: (strings: TemplateStringsArray, ...values: unknown[]) => TemplateResult;
 /**
  * Interprets a template literal as an SVG template that can efficiently

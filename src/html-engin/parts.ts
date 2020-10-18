@@ -12,13 +12,13 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import {isDirective} from './directive.js';
-import {removeNodes} from './dom.js';
-import {noChange, nothing, Part} from './interface/part.js';
-import {RenderOptions} from './interface/render-options.js';
-import {TemplateInstance} from './template-instance.js';
-import {TemplateResult} from './template-result.js';
-import {createMarker} from './template.js';
+import {isDirective} from './directive';
+import {removeNodes} from './dom';
+import {noChange, nothing, Part} from './interface/part';
+import {RenderOptions} from './interface/render-options';
+import {TemplateInstance} from './template-instance';
+import {TemplateResult} from './template-result';
+import {createMarker} from './template';
 
 // https://tc39.github.io/ecma262/#sec-typeof-operator
 export type Primitive = null|undefined|boolean|number|string|symbol|bigint;
@@ -94,7 +94,7 @@ export class AttributeCommitter {
     for (let i = 0; i < l; i++) {
       text += strings[i];
       const part = parts[i];
-      if (part !== undefined) {
+      if (part) {
         const v = part.value;
         if (isPrimitive(v) || !isIterable(v)) {
           text += typeof v === 'string' ? v : String(v);
@@ -219,7 +219,7 @@ export class NodePart implements Part {
   }
 
   commit() {
-    if (this.startNode.parentNode === null) {
+    if (!this.startNode.parentNode) {
       return;
     }
     while (isDirective(this.__pendingValue)) {

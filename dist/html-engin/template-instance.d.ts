@@ -11,9 +11,9 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { RenderOptions } from './interface/render-options.js';
-import { TemplateProcessor } from './interface/template-processor.js';
-import { Template } from './template.js';
+import { RenderOptions } from './interface/render-options';
+import { TemplateProcessor } from './interface/template-processor';
+import { Template } from './template';
 /**
  * An instance of a `Template` that can be attached to the DOM and updated
  * with new values.

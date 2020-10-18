@@ -12,7 +12,7 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import {Part} from './interface/part.js';
+import {Part} from './interface/part';
 
 const directives = new WeakMap<object, true>();
 

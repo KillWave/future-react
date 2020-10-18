@@ -14,9 +14,9 @@
 /**
  * @module lit-html
  */
-import { Part } from './interface/part.js';
-import { NodePart } from './parts.js';
-import { RenderOptions } from './interface/render-options.js';
+import { Part } from './part';
+import { NodePart } from '../parts';
+import { RenderOptions } from './render-options';
 export interface TemplateProcessor {
     /**
      * Create parts for an attribute-position binding, given the element,

@@ -16,9 +16,9 @@
  * @module lit-html
  */
 
-import {reparentNodes} from './dom.js';
-import {TemplateProcessor} from './interface/template-processor.js';
-import {boundAttributeSuffix, lastAttributeNameRegex, marker, nodeMarker} from './template.js';
+import {reparentNodes} from './dom';
+import {TemplateProcessor} from './interface/template-processor';
+import {boundAttributeSuffix, lastAttributeNameRegex, marker, nodeMarker} from './template';
 
 // declare const trustedTypes: typeof window.trustedTypes;
 /**
@@ -113,7 +113,7 @@ export class TemplateResult {
   getTemplateElement(): HTMLTemplateElement {
     const template = document.createElement('template');
     let value = this.getHTML();
-    if (policy !== undefined) {
+    if (policy) {
       // this is secure because `this.strings` is a TemplateStringsArray.
       // TODO: validate this when
       // https://github.com/tc39/proposal-array-is-template-object is

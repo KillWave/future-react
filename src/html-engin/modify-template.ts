@@ -12,7 +12,7 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import {isTemplatePartActive, Template, TemplatePart} from './template.js';
+import {isTemplatePartActive, Template, TemplatePart} from './template';
 
 const walkerNodeFilter = 133 /* NodeFilter.SHOW_{ELEMENT|COMMENT|TEXT} */;
 
@@ -62,7 +62,7 @@ export function removeNodesFromTemplate(
     if (currentRemovingNode !== null) {
       removeCount++;
     }
-    while (part !== undefined && part.index === nodeIndex) {
+    while (part && part.index === nodeIndex) {
       // If part is in a removed node deactivate it by setting index to -1 or
       // adjust the index as needed.
       part.index = currentRemovingNode !== null ? -1 : part.index - removeCount;
@@ -104,7 +104,7 @@ export function insertNodeIntoTemplate(
   const {element: {content}, parts} = template;
   // If there's no refNode, then put node at end of template.
   // No part indices need to be shifted in this case.
-  if (refNode === null || refNode === undefined) {
+  if (!refNode) {
     content.appendChild(node);
     return;
   }

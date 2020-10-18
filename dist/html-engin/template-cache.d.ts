@@ -11,8 +11,8 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { TemplateResult } from './template-result.js';
-import { Template } from './template.js';
+import { TemplateResult } from './template-result';
+import { Template } from './template';
 /**
  * A function type that creates a Template from a TemplateResult.
  *

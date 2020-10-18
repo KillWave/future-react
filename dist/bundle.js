@@ -12,13 +12,6 @@
  * http://polymer.github.io/PATENTS.txt
  */
 /**
- * True if the custom elements polyfill is in use.
- */
-const isCEPolyfill = typeof window !== 'undefined' &&
-    window.customElements != null &&
-    window.customElements.polyfillWrapFlushCallback !==
-        undefined;
-/**
  * Removes nodes, starting from `start` (inclusive) to `end` (exclusive), from
  * `container`.
  */
@@ -70,6 +63,27 @@ const noChange = {};
  * A sentinel value that signals a NodePart to fully clear its content.
  */
 const nothing = {};
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at
+ * http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at
+ * http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at
+ * http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at
+ * http://polymer.github.io/PATENTS.txt
+ */
+/**
+ * True if the custom elements polyfill is in use.
+ */
+const isCEPolyfill = typeof window !== 'undefined' &&
+    window.customElements != null &&
+    window.customElements.polyfillWrapFlushCallback !==
+        undefined;
 
 /**
  * @license
@@ -513,7 +527,7 @@ class TemplateResult {
     getTemplateElement() {
         const template = document.createElement('template');
         let value = this.getHTML();
-        if (policy !== undefined) {
+        if (policy) {
             // this is secure because `this.strings` is a TemplateStringsArray.
             // TODO: validate this when
             // https://github.com/tc39/proposal-array-is-template-object is
@@ -599,7 +613,7 @@ class AttributeCommitter {
         for (let i = 0; i < l; i++) {
             text += strings[i];
             const part = parts[i];
-            if (part !== undefined) {
+            if (part) {
                 const v = part.value;
                 if (isPrimitive(v) || !isIterable(v)) {
                     text += typeof v === 'string' ? v : String(v);
@@ -707,7 +721,7 @@ class NodePart {
         this.__pendingValue = value;
     }
     commit() {
-        if (this.startNode.parentNode === null) {
+        if (!this.startNode.parentNode) {
             return;
         }
         while (isDirective(this.__pendingValue)) {
@@ -1070,6 +1084,7 @@ const parts = new WeakMap();
  *     container, as those changes will not effect previously rendered DOM.
  */
 const render = (result, container, options) => {
+    //  debugger;
     //判断是否存在dom容器 有则更新无则创建
     let part = parts.get(container);
     if (!part) {
@@ -1109,7 +1124,7 @@ class DefaultTemplateProcessor {
      */
     handleAttributeExpressions(element, name, strings, options) {
         const prefix = name[0];
-        if (prefix === '.') {
+        if (prefix === ':') {
             const committer = new PropertyCommitter(element, name.slice(1), strings);
             return committer.parts;
         }

@@ -12,10 +12,10 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import {removeNodes} from './dom.js';
-import {NodePart} from './parts.js';
-import {RenderOptions} from './interface/render-options.js';
-import {templateFactory} from './template-cache.js';
+import {removeNodes} from './dom';
+import {NodePart} from './parts';
+import {RenderOptions} from './interface/render-options';
+import {templateFactory} from './template-cache';
 
 export const parts = new WeakMap<Node, NodePart>();
 
@@ -38,6 +38,7 @@ export const render =
     (result: unknown,
      container: Element|DocumentFragment,
      options?: Partial<RenderOptions>) => {
+      //  debugger;
       //判断是否存在dom容器 有则更新无则创建
       let part = parts.get(container);
       if (!part) {

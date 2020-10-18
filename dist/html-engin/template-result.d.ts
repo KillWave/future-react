@@ -11,7 +11,7 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { TemplateProcessor } from './interface/template-processor.js';
+import { TemplateProcessor } from './interface/template-processor';
 /**
  * The return type of `html`, which holds a Template and the values from
  * interpolated expressions.

@@ -11,7 +11,7 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { Part } from './interface/part.js';
+import { Part } from './interface/part';
 export declare type DirectiveFactory = (...args: any[]) => object;
 export declare type DirectiveFn = (part: Part) => void;
 /**

@@ -1,6 +1,6 @@
 
-import {defaultTemplateProcessor} from './default-template-processor.js';
-import {SVGTemplateResult, TemplateResult} from './template-result.js';
+import {defaultTemplateProcessor} from './default-template-processor';
+import {SVGTemplateResult, TemplateResult} from './template-result';
 export const html = (strings: TemplateStringsArray, ...values: unknown[]) =>
     new TemplateResult(strings, values, 'html', defaultTemplateProcessor);
 

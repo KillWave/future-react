@@ -11,7 +11,7 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { TemplateResult } from './template-result.js';
+import { TemplateResult } from './template-result';
 /**
  * An expression marker with embedded unique key to avoid collision with
  * possible text in templates.

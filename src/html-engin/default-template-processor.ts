@@ -12,10 +12,11 @@
  * http://polymer.github.io/PATENTS.txt
  */
 
-import {Part} from './interface/part.js';
-import {AttributeCommitter, BooleanAttributePart, EventPart, NodePart, PropertyCommitter} from './parts.js';
-import {RenderOptions} from './interface/render-options.js';
-import {TemplateProcessor} from './interface/template-processor.js';
+import {Part} from './interface/part';
+import {AttributeCommitter, BooleanAttributePart, EventPart, NodePart, PropertyCommitter} from './parts';
+import {RenderOptions} from './interface/render-options';
+import {TemplateProcessor} from './interface/template-processor';
+
 
 /**
  * Creates Parts when a template is instantiated.
@@ -34,7 +35,7 @@ export class DefaultTemplateProcessor implements TemplateProcessor {
       element: Element, name: string, strings: string[],
       options: RenderOptions): ReadonlyArray<Part> {
     const prefix = name[0];
-    if (prefix === '.') {
+    if (prefix === ':') {
       const committer = new PropertyCommitter(element, name.slice(1), strings);
       return committer.parts;
     }

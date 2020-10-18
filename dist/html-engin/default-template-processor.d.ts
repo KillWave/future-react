@@ -11,10 +11,10 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { Part } from './interface/part.js';
-import { NodePart } from './parts.js';
-import { RenderOptions } from './interface/render-options.js';
-import { TemplateProcessor } from './interface/template-processor.js';
+import { Part } from './interface/part';
+import { NodePart } from './parts';
+import { RenderOptions } from './interface/render-options';
+import { TemplateProcessor } from './interface/template-processor';
 /**
  * Creates Parts when a template is instantiated.
  */

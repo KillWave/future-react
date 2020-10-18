@@ -13,10 +13,10 @@
  */
 
 import {isCEPolyfill} from './dom.js';
-import {Part} from './interface/part.js';
-import {RenderOptions} from './interface/render-options.js';
-import {TemplateProcessor} from './interface/template-processor.js';
-import {isTemplatePartActive, Template, TemplatePart} from './template.js';
+import {Part} from './interface/part';
+import {RenderOptions} from './interface/render-options';
+import {TemplateProcessor} from './interface/template-processor';
+import {isTemplatePartActive, Template, TemplatePart} from './template';
 
 /**
  * An instance of a `Template` that can be attached to the DOM and updated
