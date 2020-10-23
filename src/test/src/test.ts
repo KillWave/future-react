@@ -1,6 +1,6 @@
 import {ElementEngin,html} from '../../element-engin'
 
-export default class Test extends ElementEngin{
+export default class TestTag extends ElementEngin{
     render(){
         return html `
             app-data${this['data']}

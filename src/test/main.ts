@@ -1,10 +1,17 @@
-import {ElementEngin,html} from '../element-engin'
-import Test from './src/test'
-customElements.define('test-p',Test);
+import {ElementEngin,html,Component} from '../element-engin'
+import TestTag from './src/test'
+
+Component({
+    components:{
+        TestTag
+    }
+});
 export default class App extends ElementEngin {
     private name = 'app';
     private text = 'text';
     private hello(){
+        
+        console.log(App.name)
         this.text = this.text +' change';
     }
     private change(e){
@@ -12,7 +19,7 @@ export default class App extends ElementEngin {
     }
     render(){
         return html `
-        <test-p :data=${this.name}></test-p>
+        <test-tag :data=${this.name}></test-tag>
         这是App
         <button @click="${this.hello.bind(this)}">${this.text}</button>
         <input :value="${this.text}" @input="${this.change.bind(this)}" ></input>
