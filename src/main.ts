@@ -1,5 +1,3 @@
-import App from './test/main'
-
-customElements.define('app-root',App);
-
+import App from './components/app'
+customElements.define('app-test',App);
 document.body.appendChild(new App());
