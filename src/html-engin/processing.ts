@@ -1,7 +1,12 @@
-import { Html } from './interface'
-import { TemplateResult } from './result'
-import { templateMap, boundAttributeSuffix, marker, typeJudgment } from './tools'
-import { render } from './render'
+import { Html } from "./interface";
+import { render } from "./render";
+import { TemplateResult } from "./result";
+import {
+  boundAttributeSuffix,
+  marker,
+  templateMap,
+  typeJudgment,
+} from "./tools";
 
 const endsWith = (str: string, suffix: string) => {
   const index = str.length - suffix.length;
@@ -23,19 +28,19 @@ const diff = (newData: unknown, oldData: unknown) => {
 export class Processing {
   public bindNodes: Html.Vnode[];
   private result: Html.TemplateResult;
-  public template: HTMLTemplateElement;
   constructor(result: Html.TemplateResult) {
     this.bindNodes = [];
     this.result = result;
     let template = templateMap.get(result.getHTML());
     if (!template) {
-      templateMap.set(result.getHTML(), (template = this.compile()))
+      templateMap.set(result.getHTML(), this.compile());
     }
-    this.template = template;
   }
   compile(result?: Html.TemplateResult) {
     const valueArray = result ? result.valueArray : this.result.valueArray;
-    const content = result ? result.getTemplateElement().content.cloneNode(true) : this.result.getTemplateElement().content.cloneNode(true);
+    const content = result
+      ? result.getTemplateElement().content.cloneNode(true)
+      : this.result.getTemplateElement().content.cloneNode(true);
     const iteratorTemplate = document.createNodeIterator(
       content,
       NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT
@@ -54,9 +59,7 @@ export class Processing {
           const attributes = [...node.attributes];
           const { length } = attributes;
           for (let i = 0; i < length; i++) {
-            if (
-              endsWith(attributes[i].name, boundAttributeSuffix)
-            ) {
+            if (endsWith(attributes[i].name, boundAttributeSuffix)) {
               index++;
               const name = deleteSuffix(
                 attributes[i].name,
@@ -92,13 +95,14 @@ export class Processing {
             index++;
             const parent = node.parentNode;
             const data = valueArray[index];
+            // if(typeJudgment(data).slice(0, 4))
             switch (typeJudgment(data)) {
               case "Object":
                 if (data instanceof TemplateResult) {
                   node.remove();
                   render(data, parent);
                 } else {
-                  throw new Error('Object is not TemplateResult type');
+                  throw new Error("Object is not TemplateResult type");
                 }
                 break;
               default:
@@ -106,9 +110,7 @@ export class Processing {
                 if (data instanceof Node) {
                   childerNode = data;
                 } else {
-                  childerNode = document.createTextNode(
-                    data as string
-                  );
+                  childerNode = document.createTextNode(data as string);
                 }
                 parent.replaceChild(childerNode, node);
                 const vnode: Html.Vnode = {
@@ -120,13 +122,11 @@ export class Processing {
                 this.bindNodes.push(vnode);
                 break;
             }
-
           }
           break;
       }
     }
     return iteratorTemplate.root;
-
   }
   update(newData = []) {
     for (let i = 0; i < this.bindNodes.length; i++) {
