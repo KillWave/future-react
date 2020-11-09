@@ -80,9 +80,9 @@ export function Prop(option?: PropOption) {
 }
 export abstract class MyCmp extends HTMLElement {
   abstract render(): Html.TemplateResult;
-  public readonly root: ShadowRoot = this.attachShadow({ mode: "closed" });
   constructor() {
     super();
+    this.attachShadow({ mode: "open" });
     this.attrProcessing();
     this.created();
   }
@@ -98,8 +98,7 @@ export abstract class MyCmp extends HTMLElement {
     this.destroy();
   }
   update() {
-    render(this.render(), this.root as any);
-    // customElements.upgrade(this.root);
+    render(this.render(), this.shadowRoot as any);
   }
   adoptedCallback() {}
   attributeChangedCallback(...args) {
@@ -112,7 +111,7 @@ export abstract class MyCmp extends HTMLElement {
         console.log(mutation, 11);
       });
     });
-    observer.observe(this.root, {
+    observer.observe(this.shadowRoot, {
       attributes: true,
       characterData: true,
       childList: true,
@@ -121,7 +120,7 @@ export abstract class MyCmp extends HTMLElement {
       characterDataOldValue: true,
     });
     for (const key in this) {
-      if (this.hasOwnProperty(key) && key != "root") {
+      if (this.hasOwnProperty(key)) {
         let element = this[key];
         Object.defineProperty(this, key, {
           //属性重写（或者添加属性）
