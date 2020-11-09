@@ -19,7 +19,7 @@ const deleteSuffix = (str: string, suffix: string) => {
 };
 
 const diff = (newData: unknown, oldData: unknown) => {
-  if (newData == oldData) {
+  if (newData === oldData) {
     return false;
   } else {
     return true;
