@@ -166,4 +166,7 @@ export class Processing {
       }
     }
   }
+  destroy() {
+    templateMap.delete(this.result.getHTML());
+  }
 }

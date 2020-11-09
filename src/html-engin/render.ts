@@ -17,10 +17,14 @@ export const render = (
       templateMap.set(result.getHTML(), (temp = root.compile(result)));
       root.update();
       removeNodes(container, container.firstChild);
-      //   container.innerHTML = "";
       container.appendChild(temp);
     } else {
       root.update(result.valueArray);
     }
   }
+};
+export const destroy = (container: Element | Node | ShadowRoot) => {
+  let root = containerMap.get(container);
+  root.destroy();
+  containerMap.delete(container);
 };

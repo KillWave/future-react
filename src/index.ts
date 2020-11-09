@@ -1,5 +1,5 @@
 import { Html } from "./html-engin/interface";
-import { render } from "./html-engin/render";
+import { destroy, render } from "./html-engin/render";
 export { html } from "./html-engin/";
 // createdCallback
 // 自定义元素注册后，在实例化之后会调用，通常多用于做元素的初始化，如插入子元素，绑定事件等。
@@ -95,10 +95,11 @@ export abstract class MyCmp extends HTMLElement {
   destroy() {}
   mounted() {}
   disconnectedCallback() {
+    destroy(this.shadowRoot);
     this.destroy();
   }
   update() {
-    render(this.render(), this.shadowRoot as any);
+    render(this.render(), this.shadowRoot);
   }
   adoptedCallback() {}
   attributeChangedCallback(...args) {
