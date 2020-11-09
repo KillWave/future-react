@@ -5,6 +5,17 @@ export const boundAttributeSuffix = "$lit$";
 export const containerMap = new WeakMap();
 export const templateMap = new Map();
 
-export const typeJudgment = (type:unknown)=>{
-    return Object.prototype.toString.call(type).slice(8,-1)
-}
+export const typeJudgment = (type: unknown) => {
+  return Object.prototype.toString.call(type).slice(8, -1);
+};
+export const removeNodes = (
+  container: Element | Node | ShadowRoot,
+  start: Node | null,
+  end: Node | null = null
+): void => {
+  while (start !== end) {
+    const n = start!.nextSibling;
+    container.removeChild(start!);
+    start = n;
+  }
+};

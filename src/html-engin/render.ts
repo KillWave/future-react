@@ -1,7 +1,11 @@
 import { Html } from "./interface";
 import { Processing } from "./processing";
-import { containerMap, templateMap } from "./tools";
-export const render = (result: Html.TemplateResult, container: Element) => {
+import { containerMap, removeNodes, templateMap } from "./tools";
+
+export const render = (
+  result: Html.TemplateResult,
+  container: Element | Node | ShadowRoot
+) => {
   let root = containerMap.get(container);
   if (!root) {
     containerMap.set(container, (root = new Processing(result)));
@@ -12,7 +16,8 @@ export const render = (result: Html.TemplateResult, container: Element) => {
     if (!temp) {
       templateMap.set(result.getHTML(), (temp = root.compile(result)));
       root.update();
-      container.innerHTML = "";
+      removeNodes(container, container.firstChild);
+      //   container.innerHTML = "";
       container.appendChild(temp);
     } else {
       root.update(result.valueArray);
