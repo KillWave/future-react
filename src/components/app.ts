@@ -4,6 +4,7 @@ import Test from "./test";
   components: {
     "test-item": Test,
   },
+  ShadowRootInit:{mode:'closed'}
 })
 export default class AppTest extends MyCmp {
   private val = "123";
@@ -18,8 +19,9 @@ export default class AppTest extends MyCmp {
     return html`
       <div>
         <item-test :data="${this.val}" @click="${this.change.bind(this)}">
-          123 ${document.createElement("ul")}${this.val}
+        
         </item-test>
+        123 ${document.createElement("ul")}${this.val}
       </div>
     `;
   }

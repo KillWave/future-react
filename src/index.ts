@@ -50,11 +50,10 @@ function classNameToTagName(name) {
 // }
 interface ComponentOption {
   components?: any;
-  // ShadowRootInit?:ShadowRootInit
+  ShadowRootInit?:ShadowRootInit
 }
-
 export function Component(option: ComponentOption) {
-  const { components = {} } = option;
+  const { components = {},ShadowRootInit={mode:"open"} } = option;
   for (var key in components) {
     const isRegister = window.customElements.get(
       key ? key : classNameToTagName(components[key].name)
@@ -67,7 +66,11 @@ export function Component(option: ComponentOption) {
     }
   }
 
-  return function (target: any) {};
+  return function (target: any) {
+      console.log(target.prototype)
+      // target.prototype = Object.create(target.prototype);
+      //target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
+  };
 }
 interface PropOption {
   default: any;
@@ -78,11 +81,16 @@ export function Prop(option?: PropOption) {
     //target[attr] = target.getAttribute(attr) || option?.default;
   };
 }
-export abstract class MyCmp extends HTMLElement {
+class ElementComponent extends HTMLElement{
+  public body:ShadowRoot;
+  public ShadowRootInit:ShadowRootInit;
+}
+
+export abstract class MyCmp extends ElementComponent implements ElementComponent{
   abstract render(): Html.TemplateResult;
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
+    this.attachShadow({mode:"open"});
     this.attrProcessing();
     this.created();
   }
@@ -122,6 +130,7 @@ export abstract class MyCmp extends HTMLElement {
     });
     for (const key in this) {
       if (this.hasOwnProperty(key)) {
+        console.log(key)
         let element = this[key];
         Object.defineProperty(this, key, {
           //属性重写（或者添加属性）
