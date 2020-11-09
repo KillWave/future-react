@@ -9,7 +9,7 @@ import Test from "./test";
 export default class AppTest extends MyCmp {
   private val = "123";
   created() {
-    console.log(111);
+    console.log(this.root);
   }
   private change() {
     this.val = "456";
@@ -18,10 +18,12 @@ export default class AppTest extends MyCmp {
   render(): any {
     return html`
       <div>
-        <item-test :data="${this.val}" @click="${this.change.bind(this)}">
+        <test-item :data="${this.val}" @click="${this.change.bind(this)}">
         
-        </item-test>
-        123 ${document.createElement("ul")}${this.val}
+          123 ${document.createElement("ul")}${this.val}
+        </test-test>
+       
+
       </div>
     `;
   }

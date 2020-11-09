@@ -45,9 +45,6 @@ function classNameToTagName(name) {
   }
   return result;
 }
-// interface ComponentRegister {
-//   string: NewCmp;
-// }
 interface ComponentOption {
   components?: any;
   ShadowRootInit?:ShadowRootInit
@@ -67,9 +64,7 @@ export function Component(option: ComponentOption) {
   }
 
   return function (target: any) {
-      console.log(target.prototype)
-      // target.prototype = Object.create(target.prototype);
-      //target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
+      target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
   };
 }
 interface PropOption {
@@ -82,15 +77,14 @@ export function Prop(option?: PropOption) {
   };
 }
 class ElementComponent extends HTMLElement{
-  public body:ShadowRoot;
   public ShadowRootInit:ShadowRootInit;
 }
 
 export abstract class MyCmp extends ElementComponent implements ElementComponent{
   abstract render(): Html.TemplateResult;
+  public readonly root:ShadowRoot = this.attachShadow(this.ShadowRootInit);
   constructor() {
     super();
-    this.attachShadow({mode:"open"});
     this.attrProcessing();
     this.created();
   }
@@ -103,11 +97,11 @@ export abstract class MyCmp extends ElementComponent implements ElementComponent
   destroy() {}
   mounted() {}
   disconnectedCallback() {
-    destroy(this.shadowRoot);
+    destroy(this.root);
     this.destroy();
   }
   update() {
-    render(this.render(), this.shadowRoot);
+    render(this.render(), this.root);
   }
   adoptedCallback() {}
   attributeChangedCallback(...args) {
@@ -120,7 +114,7 @@ export abstract class MyCmp extends ElementComponent implements ElementComponent
         console.log(mutation, 11);
       });
     });
-    observer.observe(this.shadowRoot, {
+    observer.observe(this.root, {
       attributes: true,
       characterData: true,
       childList: true,
@@ -129,8 +123,7 @@ export abstract class MyCmp extends ElementComponent implements ElementComponent
       characterDataOldValue: true,
     });
     for (const key in this) {
-      if (this.hasOwnProperty(key)) {
-        console.log(key)
+      if (this.hasOwnProperty(key) && key != 'root') {
         let element = this[key];
         Object.defineProperty(this, key, {
           //属性重写（或者添加属性）
