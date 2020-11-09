@@ -28,13 +28,15 @@ const diff = (newData: unknown, oldData: unknown) => {
 export class Processing {
   public bindNodes: Html.Vnode[];
   private result: Html.TemplateResult;
+  public template: HTMLTemplateElement;
   constructor(result: Html.TemplateResult) {
     this.bindNodes = [];
     this.result = result;
     let template = templateMap.get(result.getHTML());
     if (!template) {
-      templateMap.set(result.getHTML(), this.compile());
+      templateMap.set(result.getHTML(), (template = this.compile()));
     }
+    this.template = template;
   }
   compile(result?: Html.TemplateResult) {
     const valueArray = result ? result.valueArray : this.result.valueArray;
