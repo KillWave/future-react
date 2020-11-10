@@ -10,13 +10,13 @@ export default class ItemTest extends MyCmp {
   }
   mounted() {}
 
-  change() {
-    this.data = 999;
-    this.$emit("change",1,2,3);
+  dataChange() {
+    console.log(11)
+    this.$emit("dataChange",999);
   }
   render(): any {
     return html`
-      <div @click="${this.change.bind(this)}">
+      <div @click="${this.dataChange.bind(this)}">
         ${this.data}
         <slot></slot>
       </div>

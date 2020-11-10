@@ -82,11 +82,12 @@ class ElementComponent extends HTMLElement {
   public ShadowRootInit: ShadowRootInit;
   public props?: Array<string>;
   public $emit(eventName: string, ...args: unknown[]) {
-    var evt: any = new CustomEvent(eventName,{
+    var evt = new CustomEvent(eventName,{
       detail:{
         args
       }
     });
+    console.log(evt)
     //抛发事件
     this.dispatchEvent(evt);
   }

@@ -71,7 +71,9 @@ export class Processing {
               const attributeName = name.slice(1);
               switch (prefix) {
                 case "@":
-                  node[`on${attributeName}`] = valueArray[index];
+                  // console.log(attributeName)
+                  node.addEventListener(attributeName,valueArray[index]);
+                  // node[`on${attributeName}`] = valueArray[index];
                   break;
                 case ":":
                   vnode.attributes.push({
