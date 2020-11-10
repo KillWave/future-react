@@ -6,13 +6,13 @@ import { Component, html, MyCmp, Prop } from "../index";
 export default class ItemTest extends MyCmp {
   @Prop() private data!: any;
   created() {
-    console.log(this.data, 111);
+    // console.log(this.data, 111);
   }
   mounted() {}
 
   change() {
     this.data = 999;
-    this.$emit("change");
+    this.$emit("change",1,2,3);
   }
   render(): any {
     return html`

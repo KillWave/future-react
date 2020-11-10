@@ -10,17 +10,16 @@ export default class AppTest extends MyCmp {
   @Prop({ default: "test" }) private test!: string;
   private val = "123";
   created() {
-    document.addEventListener("change", this.change);
   }
   private change(e) {
-    console.log(e.data, 123);
+    console.log(e, 'change');
     // this.val = "456";
     // console.log(this.test);
   }
   render(): any {
     return html`
       <div>
-        <test-item :data="${this.val}" @click="${this.change.bind(this)}">
+        <test-item :data="${this.val}" @change="${this.change}">
           123 ${document.createElement("ul")}${this.val}
         </test-test>
       </div>

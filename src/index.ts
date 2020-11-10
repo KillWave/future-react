@@ -13,7 +13,7 @@ export { html } from "./html-engin/";
 // attributeChangedCallback
 // 元素属性变化时触发，可以用于从外到内的通信。外部通过修改元素的属性来让内部获取相关的数据并且执行对应的操作。
 
-//type NewCmp = new (...params: any[]) => HTMLElement;
+//type NewCmp = new (...params: any[]) => ElementComponent;
 /**
  * 改变字符串为标签样式
  * @param name
@@ -72,7 +72,7 @@ interface PropOption {
 }
 export function Prop(option: PropOption = { default: null }) {
   const d = option.default;
-  return function (target: any, attr: string) {
+  return function (target: ElementComponent, attr: string) {
     target[attr] = d;
     target.props = target.props ? target.props : [];
     target.props.push(attr);
@@ -82,12 +82,13 @@ class ElementComponent extends HTMLElement {
   public ShadowRootInit: ShadowRootInit;
   public props?: Array<string>;
   public $emit(eventName: string, ...args: unknown[]) {
-    var evt: any = new Event(eventName);
-    console.log(11);
-    //将list作为事件对象的属性
-    evt.data = "123";
+    var evt: any = new CustomEvent(eventName,{
+      detail:{
+        args
+      }
+    });
     //抛发事件
-    document.dispatchEvent(evt);
+    this.dispatchEvent(evt);
   }
 }
 
