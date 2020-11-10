@@ -19,7 +19,7 @@ export { html } from "./html-engin/";
  * @param name
  * @returns {string}
  */
-function classNameToTagName(name) {
+function classNameToTagName(name: string) {
   var result = "";
   //首字母大写执行标签化
   if (name.charAt(0).match(/[A-Z]+/)) {
@@ -72,13 +72,10 @@ interface PropOption {
 }
 export function Prop(option: PropOption = { default: null }) {
   const d = option.default;
-  //console.log(d);
   return function (target: any, attr: string) {
     target[attr] = d;
     target.props = target.props ? target.props : [];
     target.props.push(attr);
-    //console.log(target, attr);
-    //target[attr] = target.getAttribute(attr) || option?.default;
   };
 }
 class ElementComponent extends HTMLElement {
@@ -99,7 +96,10 @@ export abstract class MyCmp
   private attrProcessing() {
     const props = this.props || [];
     props.forEach((attr: string) => {
-      this[attr] = this.getAttribute(attr);
+      const value = this.getAttribute(attr);
+      if (value) {
+        this[attr] = this.getAttribute(attr);
+      }
     });
   }
   created() {}

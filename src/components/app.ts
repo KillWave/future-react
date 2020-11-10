@@ -1,19 +1,18 @@
-import { Component, html, MyCmp } from "../index";
+import { Component, html, MyCmp, Prop } from "../index";
 import Test from "./test";
 @Component({
   components: {
     "test-item": Test,
   },
-  ShadowRootInit:{mode:'closed'}
+  ShadowRootInit: { mode: "closed" },
 })
 export default class AppTest extends MyCmp {
+  @Prop({ default: "test" }) private test!: string;
   private val = "123";
-  created() {
-    console.log(this.root);
-  }
+  created() {}
   private change() {
     this.val = "456";
-    console.log(111);
+    console.log(this.test);
   }
   render(): any {
     return html`
