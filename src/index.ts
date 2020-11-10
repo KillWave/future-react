@@ -81,6 +81,14 @@ export function Prop(option: PropOption = { default: null }) {
 class ElementComponent extends HTMLElement {
   public ShadowRootInit: ShadowRootInit;
   public props?: Array<string>;
+  public $emit(eventName: string, ...args: unknown[]) {
+    var evt: any = new Event(eventName);
+    console.log(11);
+    //将list作为事件对象的属性
+    evt.data = "123";
+    //抛发事件
+    document.dispatchEvent(evt);
+  }
 }
 
 export abstract class MyCmp

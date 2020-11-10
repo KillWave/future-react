@@ -9,10 +9,13 @@ import Test from "./test";
 export default class AppTest extends MyCmp {
   @Prop({ default: "test" }) private test!: string;
   private val = "123";
-  created() {}
-  private change() {
-    this.val = "456";
-    console.log(this.test);
+  created() {
+    document.addEventListener("change", this.change);
+  }
+  private change(e) {
+    console.log(e.data, 123);
+    // this.val = "456";
+    // console.log(this.test);
   }
   render(): any {
     return html`

@@ -12,6 +12,7 @@ export default class ItemTest extends MyCmp {
 
   change() {
     this.data = 999;
+    this.$emit("change");
   }
   render(): any {
     return html`
