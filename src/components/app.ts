@@ -18,11 +18,8 @@ export default class AppTest extends MyCmp {
     return html`
       <div>
         <test-item :data="${this.val}" @click="${this.change.bind(this)}">
-        
           123 ${document.createElement("ul")}${this.val}
         </test-test>
-       
-
       </div>
     `;
   }
