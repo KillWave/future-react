@@ -13,7 +13,7 @@ export { html } from "./html-engin/";
 // attributeChangedCallback
 // 元素属性变化时触发，可以用于从外到内的通信。外部通过修改元素的属性来让内部获取相关的数据并且执行对应的操作。
 
-type NewCmp = new (...params: any[]) => HTMLElement;
+//type NewCmp = new (...params: any[]) => HTMLElement;
 /**
  * 改变字符串为标签样式
  * @param name
@@ -47,10 +47,10 @@ function classNameToTagName(name) {
 }
 interface ComponentOption {
   components?: any;
-  ShadowRootInit?:ShadowRootInit
+  ShadowRootInit?: ShadowRootInit;
 }
 export function Component(option: ComponentOption) {
-  const { components = {},ShadowRootInit={mode:"open"} } = option;
+  const { components = {}, ShadowRootInit = { mode: "open" } } = option;
   for (var key in components) {
     const isRegister = window.customElements.get(
       key ? key : classNameToTagName(components[key].name)
@@ -64,34 +64,43 @@ export function Component(option: ComponentOption) {
   }
 
   return function (target: any) {
-      target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
+    target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
   };
 }
 interface PropOption {
   default: any;
 }
-export function Prop(option?: PropOption) {
+export function Prop(option: PropOption = { default: null }) {
+  const d = option.default;
+  //console.log(d);
   return function (target: any, attr: string) {
-    console.log(target, attr);
+    target[attr] = d;
+    target.props = target.props ? target.props : [];
+    target.props.push(attr);
+    //console.log(target, attr);
     //target[attr] = target.getAttribute(attr) || option?.default;
   };
 }
-class ElementComponent extends HTMLElement{
-  public ShadowRootInit:ShadowRootInit;
+class ElementComponent extends HTMLElement {
+  public ShadowRootInit: ShadowRootInit;
+  public props?: Array<string>;
 }
 
-export abstract class MyCmp extends ElementComponent implements ElementComponent{
+export abstract class MyCmp
+  extends ElementComponent
+  implements ElementComponent {
   abstract render(): Html.TemplateResult;
-  public readonly root:ShadowRoot = this.attachShadow(this.ShadowRootInit);
+  public readonly root: ShadowRoot = this.attachShadow(this.ShadowRootInit);
   constructor() {
     super();
     this.attrProcessing();
     this.created();
   }
   private attrProcessing() {
-    Array.from(this.attributes).forEach(
-      (attr) => (this[attr.name] = attr.value)
-    );
+    const props = this.props || [];
+    props.forEach((attr: string) => {
+      this[attr] = this.getAttribute(attr);
+    });
   }
   created() {}
   destroy() {}
@@ -106,7 +115,7 @@ export abstract class MyCmp extends ElementComponent implements ElementComponent
   adoptedCallback() {}
   attributeChangedCallback(...args) {
     console.log(args, "attr");
-    this.update();
+    //this.update();
   }
   public subscribe() {
     var observer = new MutationObserver(function (mutations, observer) {
@@ -122,19 +131,23 @@ export abstract class MyCmp extends ElementComponent implements ElementComponent
       attributeOldValue: true,
       characterDataOldValue: true,
     });
+    const props = this.props || ["root"];
+    !props.includes("root") && props.push("root");
     for (const key in this) {
-      if (this.hasOwnProperty(key) && key != 'root') {
-        let element = this[key];
-        Object.defineProperty(this, key, {
-          //属性重写（或者添加属性）
-          get() {
-            return element;
-          },
-          set(val) {
-            element = val;
-            this.update();
-          },
-        });
+      if (this.hasOwnProperty(key)) {
+        if (!props.includes(key)) {
+          let element = this[key];
+          Object.defineProperty(this, key, {
+            //属性重写（或者添加属性）
+            get() {
+              return element;
+            },
+            set(val) {
+              element = val;
+              this.update();
+            },
+          });
+        }
       }
     }
   }

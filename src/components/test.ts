@@ -1,16 +1,19 @@
-import { Component, html, MyCmp } from "../index";
+import { Component, html, MyCmp, Prop } from "../index";
 
 @Component({
-  ShadowRootInit:{mode:'open'}
+  ShadowRootInit: { mode: "open" },
 })
 export default class ItemTest extends MyCmp {
+  @Prop() private data!: any;
   created() {
-    console.log(this.root,111)
-    console.log(this["data"]);
+    console.log(this.data, 111);
+    // console.log(this.root,111)
+    // console.log(this["data"]);
   }
   mounted() {}
-  change(){
-    this['data'] = 999;
+
+  change() {
+    this["data"] = 999;
   }
   render(): any {
     return html`
