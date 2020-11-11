@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <embed type="text/html" src="./dist/index.html" width="500" height="200">
+    <test-app>123</test-app>
+    <script>
+
+        class Test extends HTMLElement{
+            constructor(){
+                super()
+                //console.log('c')
+                this.onclick = this.testClick.bind(this);
+            }
+            testClick(e){
+                console.log(e);
+                this.dispatchEvent(new Event('test'))
+            }
+        }
+       
+        customElements.define('test-app',Test);
+        const testApp = document.querySelector('test-app');
+        testApp.addEventListener('test',function(e){
+            console.log(e,'test')
+        })
+        // testApp.addEventListener('click',function(e){
+        //     console.log(e,'click');
+        // })
+    </script>
+    
+</body>
+</html>
