@@ -4,15 +4,14 @@ import { Component, html, MyCmp, Prop } from "../index";
   ShadowRootInit: { mode: "open" },
 })
 export default class ItemTest extends MyCmp {
-  @Prop() private data!: any;
+  @Prop({ update: true }) private data!: any;
   created() {
-    // console.log(this.data, 111);
+    console.log(this.data);
   }
   mounted() {}
 
   change() {
-    // console.log(11);
-    this.$emit("datachange", 999);
+    this.$emit("dataChange", 999);
   }
   render(): any {
     return html`

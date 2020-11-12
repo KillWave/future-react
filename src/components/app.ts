@@ -12,12 +12,12 @@ export default class AppTest extends MyCmp {
   created() {}
   private change(e) {
     const [data] = e.detail.args;
-    console.log(e, "change");
+    console.log(data, "dataChange");
   }
   render(): any {
     return html`
       <div>
-        <test-item :data="${this.val}" @datachange="${this.change}">
+        <test-item :data="${this.val}" @dataChange="${this.change}">
           123 ${document.createElement("ul")}${this.val}
         </test-test>
       </div>

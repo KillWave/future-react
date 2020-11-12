@@ -70,30 +70,36 @@ function registerComponts(components: any) {
     }
   }
 }
-interface PropOption {
-  default: any;
+type fnArray = () => unknown[];
+type fnObject = () => object;
+interface PropBO {
+  attr: string;
+  update: boolean;
 }
-export function Prop(option: PropOption = { default: null }) {
+interface PropOption {
+  default?: null | string | fnArray | fnObject | number;
+  update?: boolean;
+}
+export function Prop(option: PropOption = { default: null, update: false }) {
   const d = option.default;
+  const update = option.update;
   return function (target: ElementComponent, attr: string) {
     target[attr] = d;
     target.props = target.props ? target.props : [];
-    target.props.push(attr);
+    target.props.push({ attr, update });
   };
 }
 class ElementComponent extends HTMLElement {
   public ShadowRootInit: ShadowRootInit;
-  public props?: Array<string>;
+  public props?: Array<PropBO>;
   public root?: ShadowRoot;
   public components?: any;
   public $emit(eventName: string, ...args: unknown[]) {
-    var evt = new CustomEvent(eventName, {
+    var evt = new CustomEvent(eventName.toLowerCase(), {
       detail: {
         args,
       },
     });
-    console.log(this);
-
     this.dispatchEvent(evt);
   }
 }
@@ -109,11 +115,10 @@ export abstract class MyCmp
     this.created();
   }
   private attrProcessing() {
-    const props = this.props || [];
-    props.forEach((attr: string) => {
-      const value = this.getAttribute(attr);
+    this.props.forEach((prop: PropBO) => {
+      const value = this.getAttribute(prop.attr);
       if (value) {
-        this[attr] = this.getAttribute(attr);
+        this[prop.attr] = this.getAttribute(prop.attr);
       }
     });
   }
@@ -146,11 +151,15 @@ export abstract class MyCmp
       attributeOldValue: true,
       characterDataOldValue: true,
     });
-    const props = this.props || ["root"];
+    const props = this.props.map((prop) => prop.attr);
     !props.includes("root") && props.push("root");
     for (const key in this) {
       if (this.hasOwnProperty(key)) {
-        if (!props.includes(key)) {
+        if (
+          this.props.find((prop) => prop.attr === key)?.update ||
+          !props.includes(key)
+        ) {
+          console.log(key, "key");
           let element = this[key];
           Object.defineProperty(this, key, {
             //属性重写（或者添加属性）
@@ -169,11 +178,6 @@ export abstract class MyCmp
   connectedCallback() {
     this.subscribe();
     this.update();
-    // setTimeout(() => {
-    //   console.log(1);
-
-    // }, 1000);
-
     this.mounted();
   }
 }

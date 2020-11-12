@@ -71,7 +71,10 @@ export class Processing {
               const attributeName = name.slice(1);
               switch (prefix) {
                 case "@":
-                  node.addEventListener(attributeName, valueArray[index]);
+                  node.addEventListener(
+                    attributeName.toLowerCase(),
+                    valueArray[index]
+                  );
                   break;
                 case ":":
                   vnode.attributes.push({
