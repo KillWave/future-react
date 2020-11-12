@@ -51,6 +51,13 @@ interface ComponentOption {
 }
 export function Component(option: ComponentOption) {
   const { components = {}, ShadowRootInit = { mode: "open" } } = option;
+  registerComponts(components);
+  return function (target: any) {
+    target.prototype.components = components;
+    target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
+  };
+}
+function registerComponts(components: any) {
   for (var key in components) {
     const isRegister = window.customElements.get(
       key ? key : classNameToTagName(components[key].name)
@@ -62,10 +69,6 @@ export function Component(option: ComponentOption) {
       );
     }
   }
-
-  return function (target: any) {
-    target.prototype.ShadowRootInit = ShadowRootInit; //target.prototype.attachShadow(ShadowRootInit)
-  };
 }
 interface PropOption {
   default: any;
@@ -81,14 +84,16 @@ export function Prop(option: PropOption = { default: null }) {
 class ElementComponent extends HTMLElement {
   public ShadowRootInit: ShadowRootInit;
   public props?: Array<string>;
+  public root?: ShadowRoot;
+  public components?: any;
   public $emit(eventName: string, ...args: unknown[]) {
-    var evt = new CustomEvent(eventName,{
-      detail:{
-        args
-      }
+    var evt = new CustomEvent(eventName, {
+      detail: {
+        args,
+      },
     });
-    console.log(evt)
-    //抛发事件
+    console.log(this);
+
     this.dispatchEvent(evt);
   }
 }
@@ -164,6 +169,11 @@ export abstract class MyCmp
   connectedCallback() {
     this.subscribe();
     this.update();
+    // setTimeout(() => {
+    //   console.log(1);
+
+    // }, 1000);
+
     this.mounted();
   }
 }

@@ -4,25 +4,20 @@ import Test from "./test";
   components: {
     "test-item": Test,
   },
-  ShadowRootInit: { mode: "closed" },
+  ShadowRootInit: { mode: "open" },
 })
 export default class AppTest extends MyCmp {
   @Prop({ default: "test" }) private test!: string;
   private val = "123";
-  created() {
-  }
+  created() {}
   private change(e) {
-    console.log(e)
     const [data] = e.detail.args;
-    console.log(data, 'change');
-    // this.val = data
-    // this.val = "456";
-    // console.log(this.test);
+    console.log(e, "change");
   }
   render(): any {
     return html`
       <div>
-        <test-item :data="${this.val}" @dataChange="${this.change}">
+        <test-item :data="${this.val}" @datachange="${this.change}">
           123 ${document.createElement("ul")}${this.val}
         </test-test>
       </div>
