@@ -115,6 +115,7 @@ export abstract class MyCmp
     this.created();
   }
   private attrProcessing() {
+    this.props = this.props || [];
     this.props.forEach((prop: PropBO) => {
       const value = this.getAttribute(prop.attr);
       if (value) {
@@ -159,7 +160,7 @@ export abstract class MyCmp
           this.props.find((prop) => prop.attr === key)?.update ||
           !props.includes(key)
         ) {
-          console.log(key, "key");
+          // console.log(key, "key");
           let element = this[key];
           Object.defineProperty(this, key, {
             //属性重写（或者添加属性）

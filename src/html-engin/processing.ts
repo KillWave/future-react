@@ -19,6 +19,7 @@ const deleteSuffix = (str: string, suffix: string) => {
 };
 
 const diff = (newData: unknown, oldData: unknown) => {
+  //console.log(newData, oldData);
   if (newData === oldData) {
     return false;
   } else {
@@ -77,11 +78,27 @@ export class Processing {
                   );
                   break;
                 case ":":
+                  if (node.isContentEditable || attributeName === "value") {
+                    const self = this;
+                    node.addEventListener("input", function (e) {
+                      //console.log(e);
+                      const newArray = [...valueArray];
+                      const arr = newArray.map((d) => {
+                        d === newArray[index] && (d = this.value);
+                        return d;
+                      });
+                      // newArray[index] = this.value;
+
+                      self.update(arr);
+                      //valueArray[index] = this.value;
+                    });
+                  }
                   vnode.attributes.push({
                     name: attributeName,
                     value: valueArray[index],
                     index,
                   });
+
                   break;
                 default:
                   node.setAttribute(name, valueArray[index]);
