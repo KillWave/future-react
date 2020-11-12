@@ -80,24 +80,21 @@ export class Processing {
                 case ":":
                   if (node.isContentEditable || attributeName === "value") {
                     const self = this;
-                    node.addEventListener("input", function (e) {
-                      //console.log(e);
+                    node.addEventListener("input", function () {
                       const newArray = [...valueArray];
                       const arr = newArray.map((d) => {
                         d === newArray[index] && (d = this.value);
                         return d;
                       });
-                      // newArray[index] = this.value;
-
                       self.update(arr);
-                      //valueArray[index] = this.value;
+                    });
+                  } else {
+                    vnode.attributes.push({
+                      name: attributeName,
+                      value: valueArray[index],
+                      index,
                     });
                   }
-                  vnode.attributes.push({
-                    name: attributeName,
-                    value: valueArray[index],
-                    index,
-                  });
 
                   break;
                 default:
