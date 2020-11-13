@@ -61,12 +61,8 @@ class Process {
         result.getTemplate().content
       );
     }
-
-    document.body.appendChild(this.temp);
-
-    console.log(patch);
   }
-  update() {}
+  update(values) {}
 }
 class Patch {
   pretreatment(values, content) {
