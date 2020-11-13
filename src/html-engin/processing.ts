@@ -88,6 +88,7 @@ export class Processing {
                       });
                       self.update(arr);
                     });
+                    node.setAttribute(attributeName, valueArray[index]);
                   } else {
                     vnode.attributes.push({
                       name: attributeName,
