@@ -52,18 +52,21 @@ const render = (container, result) => {
 const resultMap = new Map();
 class Process {
   constructor(result) {
-    let patch = resultMap.get(result.marker);
+    this.values = result.values;
+    this.patch = resultMap.get(result.marker);
     if (!patch) {
-      resultMap.set(result.marker, (patch = new Patch()));
+      resultMap.set(result.marker, (this.patch = new Patch()));
       this.temp = patch.pretreatment(
         result.values,
         result.getTemplate().content
       );
     }
+
     document.body.appendChild(this.temp);
 
     console.log(patch);
   }
+  update() {}
 }
 class Patch {
   pretreatment(values, content) {
@@ -90,7 +93,10 @@ class Patch {
               node.removeAttribute(attr.name);
               const prefix = name[0];
               if (prefix === "@") {
-                node.addEventListener(name.slice(1), values[index]);
+                node.addEventListener(
+                  name.slice(1).toLowerCase(),
+                  values[index]
+                );
               } else if (prefix === ":") {
                 //TODO
               } else if (prefix === "?") {
