@@ -15,6 +15,10 @@ class MyElement extends ElementEngin {
         const { aaaa,bbb } = this.data;
         return html`<div @click="${this.add.bind(this)}">${aaaa},${bbb}</div>`
     }
+    //监听属性变化
+    attributeChanged(...args){
+        console.log(args)
+    }
     add() {
         this.setAttribute("name","123")
         this.data.aaaa.push(789)

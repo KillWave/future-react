@@ -54,9 +54,12 @@ export abstract class ElementEngin extends HTMLElement {
 
         });
     }
-    attributeChangedCallback() {
+    //props改变渲染
+    attributeChangedCallback(...args) {
+        this.attributeChanged(...args)
         this._update()
     }
+    attributeChanged(...args) { }
     protected _update() {
         nextTick(() => {
             render(this.template, this)
