@@ -54,6 +54,9 @@ export abstract class ElementEngin extends HTMLElement {
 
         });
     }
+    attributeChangedCallback() {
+        this._update()
+    }
     protected _update() {
         nextTick(() => {
             render(this.template, this)

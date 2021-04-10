@@ -7,11 +7,16 @@ class MyElement extends ElementEngin {
         aaaa: [123,456],
         bbb:122
     }
+     // 要监听属性的变化，必须通过observedAttributes监听这个属性
+     static get observedAttributes() {
+        return ['name'];
+    }
     get template() {
         const { aaaa,bbb } = this.data;
         return html`<div @click="${this.add.bind(this)}">${aaaa},${bbb}</div>`
     }
     add() {
+        this.setAttribute("name","123")
         this.data.aaaa.push(789)
         this.data.bbb = 2222
     }
