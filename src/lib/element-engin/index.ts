@@ -2,6 +2,14 @@ import { TemplateResult, render } from '../lit-html'
 export function nextTick(callback) {
     return Promise.resolve().then(callback)
 }
+export  function define(tagName:string,component:CustomElementConstructor,callback){
+    if(!customElements.get(tagName)){
+        customElements.whenDefined(tagName).then(callback)
+        customElements.define(tagName,component)
+    }else{
+        throw new Error(`${tagName} a define please rename customElement!`)
+    }
+}
 export abstract class ElementEngin extends HTMLElement {
     constructor() {
         super();
@@ -10,6 +18,8 @@ export abstract class ElementEngin extends HTMLElement {
         //数据改变渲染
         this._proxyData();
     }
+    abstract registerComponent: CustomElementConstructor[]
+    abstract tagName: string
     abstract data: { [index: string]: any }
     abstract template: TemplateResult
     protected _proxyData() {

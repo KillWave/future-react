@@ -1,14 +1,19 @@
 
 
-import { ElementEngin, html } from './lib/element-engin'
+import { ElementEngin, html,define } from './lib/element-engin'
 
 class MyElement extends ElementEngin {
+    tagName="my-element"
     data = {
         aaaa: [123,456],
         bbb:122
     }
+    get registerComponent(){
+        return []
+    }
+    
      // 要监听属性的变化，必须通过observedAttributes监听这个属性
-     static get observedAttributes() {
+    static get observedAttributes() {
         return ['name'];
     }
     get template() {
@@ -25,7 +30,11 @@ class MyElement extends ElementEngin {
         this.data.bbb = 2222
     }
 }
+define("my-element",MyElement,function(){
+    console.log(123)
+})
+// customElements.define("my-element", MyElement)
 
-customElements.define("my-element", MyElement)
+
 
 document.querySelector("#root").append(new MyElement)
