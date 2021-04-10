@@ -1,20 +1,22 @@
 
 
-import {ElementEngin,html} from './lib/element-engin'
+import { ElementEngin, html } from './lib/element-engin'
 
-class MyElement extends ElementEngin{
-    public state = {
-        aaaa:123
+class MyElement extends ElementEngin {
+    data = {
+        aaaa: [123,456],
+        bbb:122
     }
-    get template(){
-        return html`<div @click="${this.add.bind(this)}">${this.state.aaaa}</div>`
+    get template() {
+        const { aaaa,bbb } = this.data;
+        return html`<div @click="${this.add.bind(this)}">${aaaa},${bbb}</div>`
     }
-    add(){
-        this.state.aaaa = 456
-        this.update()
+    add() {
+        this.data.aaaa.push(789)
+        this.data.bbb = 2222
     }
 }
 
-customElements.define("my-element",MyElement)
+customElements.define("my-element", MyElement)
 
 document.querySelector("#root").append(new MyElement)
