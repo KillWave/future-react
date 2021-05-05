@@ -21,7 +21,9 @@ export abstract class Component extends HTMLElement {
 export function createComponent(comp, props) {
     const tagName = camelToDash(comp.name);
     if (comp.prototype && comp.prototype.render) {
-        customElements.define(tagName, comp);
+        if(!customElements.get(tagName)){
+            customElements.define(tagName, comp);
+        }
         return customElements.whenDefined(tagName).then(() => new comp(props))
     } else {
         class FC extends Component {
@@ -29,7 +31,9 @@ export function createComponent(comp, props) {
                 return comp()
             }
         }
-        customElements.define(tagName, FC);
+        if(!customElements.get(tagName)){
+            customElements.define(tagName, FC);
+        }
         return customElements.whenDefined(tagName).then(() => new FC(props))
     }
 }
