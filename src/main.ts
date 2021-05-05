@@ -1,7 +1,5 @@
-import React from './react'
+import React, { html } from './react'
 import ReactDOM from './react-dom'
-import { html } from 'lit-html'
-
 function HomeDemo2(props) {
     console.log(props)
     return html`hello world`
@@ -13,6 +11,7 @@ class DemoHome1 extends React.Component {
     }
 }
 function HomeDemo3(props) {
+    console.log(props)
     if (!this.state.num) {
         this.state.num = 1
     }
@@ -30,8 +29,6 @@ const demo = React.component(DemoHome1, { demo: 456 });
 const home = React.component(HomeDemo2, { home: 123 });
 const home2 = React.component(HomeDemo3, { home2: 123 });
 
-// setComponentProps(demo,{demo:456})
-// setComponentProps(home,{home:123})
 
 console.log(demo)
 

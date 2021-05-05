@@ -3,4 +3,5 @@ export default {
     component:createComponent,
     Component
 }
+export * from 'lit-html'
 
