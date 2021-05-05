@@ -1,18 +1,17 @@
-import { html, render, TemplateResult } from 'lit-html'
+import { render, TemplateResult } from 'lit-html'
 
-function camelToDash(str) {
+function camelToDash(str: string) {
     return str.replace(/[A-Z]/g, (item: string, index: number) => {
         return index ? '-' + item.toLowerCase() : item.toLowerCase()
     })
 }
 export abstract class Component extends HTMLElement {
     private state = {}
-    private root:ShadowRoot
-    constructor(props = {}) {
+    private readonly root: ShadowRoot
+    constructor(props = { mode: "open" }) {
         super()
-        this.root = this.attachShadow({mode:"open"})
-        console.log(props)
-        render(this.render(),this.root)
+        this.root = this.attachShadow({ mode: (props.mode ? props.mode : "open") as ShadowRootMode })
+        render(this.render(), this.root)
     }
     abstract render(): TemplateResult
 }
@@ -20,21 +19,29 @@ export abstract class Component extends HTMLElement {
 
 export function createComponent(comp, props) {
     const tagName = camelToDash(comp.name);
+    const compDefine = customElements.get(tagName)
     if (comp.prototype && comp.prototype.render) {
-        if(!customElements.get(tagName)){
+
+        if (!compDefine) {
             customElements.define(tagName, comp);
+            return customElements.whenDefined(tagName).then(() => new comp(props))
+        } else {
+            return customElements.whenDefined(tagName).then(() => new compDefine(props))
         }
-        return customElements.whenDefined(tagName).then(() => new comp(props))
+
     } else {
         class FC extends Component {
-            render(){
+            render() {
                 return comp()
             }
         }
-        if(!customElements.get(tagName)){
+        if (!compDefine) {
             customElements.define(tagName, FC);
+            return customElements.whenDefined(tagName).then(() => new FC(props))
+        } else {
+            return customElements.whenDefined(tagName).then(() => new compDefine(props))
         }
-        return customElements.whenDefined(tagName).then(() => new FC(props))
+
     }
 }
 
