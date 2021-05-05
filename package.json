@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@rollup/plugin-json": "^4.1.0",
+    "lit-html": "^1.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-generate-html-template": "^1.7.0",
     "rollup-plugin-node-resolve": "^5.2.0",

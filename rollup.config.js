@@ -17,7 +17,7 @@ export default {
       },
     plugins: [
     resolve({
-        extensions: [ '.mjs', '.js', '.ts', '.json' ,'.jsx','tsx'],  
+        extensions: [ '.js', '.ts', '.json'],  
     }),htmlTemplate({
         template: 'example/demo.html',
         target: 'dist/index.html',

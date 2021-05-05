@@ -1,40 +1,26 @@
-
-
-import { ElementEngin, html,define } from './lib/element-engin'
-
-class MyElement extends ElementEngin {
-    tagName="my-element"
-    data = {
-        aaaa: [123,456],
-        bbb:122
-    }
-    get registerComponent(){
-        return []
-    }
-    
-     // 要监听属性的变化，必须通过observedAttributes监听这个属性
-    static get observedAttributes() {
-        return ['name'];
-    }
-    get template() {
-        const { aaaa,bbb } = this.data;
-        return html`<div @click="${this.add.bind(this)}">${aaaa},${bbb}</div>`
-    }
-    //监听属性变化
-    attributeChanged(...args){
-        console.log(args)
-    }
-    add() {
-        this.setAttribute("name","123")
-        this.data.aaaa.push(789)
-        this.data.bbb = 2222
+import React from './react'
+import ReactDOM from './react-dom'
+import { html } from 'lit-html'
+import { createComponent, Component } from './component'
+function HomeDemo2() {
+    return html`hello world`
+}
+class DemoHome1 extends Component {
+    render() {
+        return html`我是demo`
     }
 }
-define("my-element",MyElement,function(){
-    console.log(123)
-})
-// customElements.define("my-element", MyElement)
+function HomeDemo3() {
+    return html`hello world3`
+}
+const demo = createComponent(DemoHome1, { demo: 456 });
+const home = createComponent(HomeDemo2, { home: 123 });
+const home2 = createComponent(HomeDemo3, { home2: 123 });
+// setComponentProps(demo,{demo:456})
+// setComponentProps(home,{home:123})
 
+console.log(demo)
+console.log(home)
+console.log(home2)
 
-
-document.querySelector("#root").append(new MyElement)
+ReactDOM.render(home2, document.querySelector("#root"))
