@@ -3,7 +3,8 @@ import htmlTemplate from 'rollup-plugin-generate-html-template';
 import serve from 'rollup-plugin-serve'
 import json from '@rollup/plugin-json'
 import typescript from 'rollup-plugin-typescript2';
-import commonjs from 'rollup-plugin-commonjs' 
+import commonjs from 'rollup-plugin-commonjs'
+import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 export default {
     input: 'src/main.ts',
     output: {
@@ -12,20 +13,24 @@ export default {
         sourcemap: true,
     },
     watch: {
-        include:"src/**",
-        exclude:"node_modules"
-      },
+        include: "src/**",
+        exclude: "node_modules"
+    },
     plugins: [
-    resolve({
-        extensions: [ '.js', '.ts', '.json'],  
-    }),htmlTemplate({
-        template: 'example/demo.html',
-        target: 'dist/index.html',
-    }),
-    serve('dist'),
-    json(),
-    typescript(),
-    commonjs()
+        resolve({
+            extensions: ['.js', '.ts', '.json'],
+        }),
+        getBabelOutputPlugin({
+            plugins: ["@babel/plugin-external-helpers"]
+        }),
+        htmlTemplate({
+            template: 'example/demo.html',
+            target: 'dist/index.html',
+        }),
+        serve('dist'),
+        json(),
+        typescript(),
+        commonjs()
     ]
 }
 

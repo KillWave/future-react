@@ -21,7 +21,7 @@ function click() {
     this.setState((prev, prevProps) => {
         console.log(prev, prevProps)
         return {
-            num: ++prev.num
+            num: prev.num + 1
         }
     })
 }
