@@ -4,7 +4,9 @@ export function defer(callback) {
     return Promise.resolve().then(callback)
 }
 export function enqueueSetState(stateChange, component) {
-    defer(flush)
+    if (!setStateQueue.length) {
+        defer(flush)
+    }
     setStateQueue.push({
         stateChange,
         component
