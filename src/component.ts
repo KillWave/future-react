@@ -1,5 +1,5 @@
 import { render, TemplateResult } from 'lit-html'
-
+import {enqueueSetState} from './setState'
 function camelToDash(str: string) {
     return str.replace(/[A-Z]/g, (item: string, index: number) => {
         return index ? '-' + item.toLowerCase() : item.toLowerCase()
@@ -7,13 +7,21 @@ function camelToDash(str: string) {
 }
 export abstract class Component extends HTMLElement {
     private state = {}
+    private props = {}
     private readonly root: ShadowRoot
     constructor(props = { mode: "open" }) {
         super()
+        this.props = props
         this.root = this.attachShadow({ mode: (props.mode ? props.mode : "open") as ShadowRootMode })
-        render(this.render(), this.root)
+        this.update()
     }
-    abstract render(): TemplateResult
+    update(){
+        render(this.render(this.props), this.root)
+    }
+    abstract render(props): TemplateResult
+    setState(stateChange){
+        enqueueSetState(stateChange,this)
+    }
 }
 
 
@@ -31,8 +39,8 @@ export function createComponent(comp, props) {
 
     } else {
         class FC extends Component {
-            render() {
-                return comp()
+            render(props) {
+                return comp.call(this,props)
             }
         }
         if (!compDefine) {

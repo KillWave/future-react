@@ -1,5 +1,6 @@
-import {createComponent} from './component'
+import {createComponent,Component} from './component'
 export default {
-    component:createComponent
+    component:createComponent,
+    Component
 }
 

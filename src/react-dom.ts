@@ -1,4 +1,3 @@
-import {render} from 'lit-html'
 import {Component} from './component'
 export default {
     async render(comp:Promise<Component>,container){
