@@ -18,6 +18,7 @@ export abstract class Component extends HTMLElement {
     })
     this.update()
   }
+
   update() {
     render(this.render(this.attributes), this.root)
   }

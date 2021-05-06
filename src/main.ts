@@ -13,21 +13,13 @@ class DemoHome1 extends React.Component {
 function HomeDemo3(props) {
   console.log(props)
   console.log(props.home2)
-  if (!this.state.num) {
-    this.state.num = 1
-  }
   return html`<button @click="${click.bind(this)}">
-    ${this.state.num}${props.home2.value}
+    ${props.home2.value}
   </button>`
 }
 function click() {
   this.setAttribute('home2', 4444)
-  this.setState((prev, prevProps) => {
-    console.log(prev, prevProps)
-    return {
-      num: prev.num + 1,
-    }
-  })
+  this.update()
 }
 const demo = React.component(DemoHome1, { demo: 456 })
 const home = React.component(HomeDemo2, { home: 123 })
