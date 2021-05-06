@@ -18,8 +18,10 @@ function HomeDemo3(props) {
   </button>`
 }
 function click() {
-  this.setAttribute('home2', 4444)
-  this.update()
+  this.setState((prev) => {
+    this.setAttribute('home2', 4444)
+    return prev
+  })
 }
 const demo = React.component(DemoHome1, { demo: 456 })
 const home = React.component(HomeDemo2, { home: 123 })
