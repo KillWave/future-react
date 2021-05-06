@@ -1,7 +1,6 @@
-import {createComponent,Component} from './component'
+import { createComponent, Component } from './component'
 export default {
-    component:createComponent,
-    Component
+  createElement: createComponent,
+  Component,
 }
 export * from 'lit-html'
-

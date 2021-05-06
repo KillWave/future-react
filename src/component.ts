@@ -8,7 +8,7 @@ function camelToDash(str: string) {
 export abstract class Component extends HTMLElement {
   private state = {}
   private readonly root: ShadowRoot
-  constructor(props = {}) {
+  constructor(props = {}, children = []) {
     super()
     for (let key in props) {
       this.setAttribute(key, props[key])
@@ -16,43 +16,53 @@ export abstract class Component extends HTMLElement {
     this.root = this.attachShadow({
       mode: 'open',
     })
-    this.update()
+
+    this.update(children)
   }
 
-  update() {
-    render(this.render(this.attributes), this.root)
+  update(children) {
+    const data = this.render(this.attributes, children)
+    if (data instanceof Promise) {
+      data.then((res) => render(res, this.root))
+    } else {
+      render(data, this.root)
+    }
   }
-  abstract render(props): TemplateResult
+  abstract render(props, children): TemplateResult
   setState(stateChange) {
     enqueueSetState(stateChange, this)
   }
 }
 
-export function createComponent(comp, props) {
+export function createComponent(comp, props, ...children) {
   const tagName = camelToDash(comp.name)
   const compDefine = customElements.get(tagName)
   if (comp.prototype && comp.prototype.render) {
     if (!compDefine) {
       customElements.define(tagName, comp)
-      return customElements.whenDefined(tagName).then(() => new comp(props))
+      return customElements
+        .whenDefined(tagName)
+        .then(() => new comp(props, children))
     } else {
       return customElements
         .whenDefined(tagName)
-        .then(() => new compDefine(props))
+        .then(() => new compDefine(props, children))
     }
   } else {
     class FC extends Component {
       render(props) {
-        return comp.call(this, props)
+        return comp.call(this, props, children)
       }
     }
     if (!compDefine) {
       customElements.define(tagName, FC)
-      return customElements.whenDefined(tagName).then(() => new FC(props))
+      return customElements
+        .whenDefined(tagName)
+        .then(() => new FC(props, children))
     } else {
       return customElements
         .whenDefined(tagName)
-        .then(() => new compDefine(props))
+        .then(() => new compDefine(props, children))
     }
   }
 }
