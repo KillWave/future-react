@@ -1,4 +1,5 @@
 import { render, TemplateResult, html } from 'lit-html'
+import { styleMap } from 'lit-html/directives/style-map'
 import { enqueueSetState } from './setState'
 function camelToDash(str: string) {
   return str.replace(/[A-Z]/g, (item: string, index: number) => {
@@ -89,20 +90,26 @@ export async function createComponent(comp, props, ...children) {
 
 function template(tagName, props) {
   return (strings: TemplateStringsArray, ...values: unknown[]) => {
-    let tag = `<${tagName}`
-    const attrs = []
+    const attrs = [`<${tagName}`]
     const regx = /^on/
-    for (let key in props) {
+    Object.keys(props || {}).forEach((key, index) => {
       if (regx.test(key)) {
-        tag += ` @${key.toLowerCase().slice(2)}=`
-        values.unshift(props[key])
+        attrs.push(` @${key.toLowerCase().slice(2)}=`)
       } else {
         attrs.push(` ${key}=`)
-        values.unshift(props[key])
       }
-    }
+      if (isType(props[key]) === 'Object') {
+        values.splice(index, 0, styleMap(props[key]))
+      } else {
+        values.splice(index, 0, props[key])
+      }
+    })
+
     attrs.push('>')
-    const stringsArray: any = [tag, ...attrs, ...strings, `</${tagName}>`]
+    const attr = attrs[1]
+    attrs.splice(1, 1)
+    attrs[0] += attr
+    const stringsArray: any = [...attrs, ...strings, `</${tagName}>`]
     stringsArray.raw = stringsArray
     return html(stringsArray, ...values)
   }

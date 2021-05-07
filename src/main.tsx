@@ -12,7 +12,9 @@ function HomeDemo3(props, childer) {
   // console.log(props.home2.value)
   return (
     <div>
-      <button onClick={click}>{props.home2.value}</button>
+      <button onClick={click} style={{ height: '50px' }}>
+        {props.home2.value}
+      </button>
       <HomeDemo2 onClick={click} />
       <DemoHome1></DemoHome1>
       <div>{childer}</div>
