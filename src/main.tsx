@@ -1,17 +1,26 @@
-import React, { html } from './react'
+import React from './react'
 import ReactDOM from './react-dom'
 function HomeDemo2() {
-  return html`hello world`
+  return <>hello world</>
 }
 class DemoHome1 extends React.Component {
   render() {
-    return html`我是demo`
+    return <>我是demo</>
   }
 }
-async function HomeDemo3(props, childer) {
-  return html`<button>${props.home2.value}</button>
-    ${await (<HomeDemo2 />)} ${await (<DemoHome1></DemoHome1>)}
-    <div>${childer}</div>`
+function HomeDemo3(props, childer) {
+  // console.log(props.home2.value)
+  return (
+    <div>
+      <button onClick={click}>{props.home2.value}</button>
+      <HomeDemo2 onClick={click} />
+      <DemoHome1></DemoHome1>
+      <div>{childer}</div>
+    </div>
+  )
+}
+function click() {
+  console.log('click')
 }
 //@ts-ignore
 ReactDOM.render(
