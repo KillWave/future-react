@@ -1,31 +1,37 @@
-import React from './react'
-import ReactDOM from './react-dom'
-function HomeDemo2() {
-  return <>hello world</>
-}
-class DemoHome1 extends React.Component {
-  render() {
-    return <>我是demo</>
+function createElement(comp, props, children) {
+  if (typeof comp === 'function') {
+    return new comp(props, children)
+  } else {
+    const dom = document.createElement(comp)
+    const regx = /^on/
+    for (let key in props) {
+      if (regx.test(key)) {
+        dom.addEventListener(key.toLowerCase().slice(2), props[key])
+      }
+      dom.setAttribute(key, props[key])
+    }
+    children.forEach((child) => {
+      if (child instanceof Element) {
+        dom.appendChild(child)
+      } else {
+        dom.appendChild(document.createTextNode(child))
+      }
+    })
+    return dom
   }
 }
-function HomeDemo3(props, childer) {
-  // console.log(props.home2.value)
+
+function App(props, children) {
+  // console.log('props, children: ', props, children)
   return (
-    <div>
-      <button onClick={click} style={{ height: '50px' }}>
-        {props.home2.value}
-      </button>
-      <HomeDemo2 onClick={click} />
-      <DemoHome1></DemoHome1>
-      <div>{childer}</div>
+    <div onClick={aaa}>
+      hello world
+      <a href="www.baidu.com">123</a>
     </div>
   )
 }
-function click() {
-  console.log('click')
+
+function aaa() {
+  console.log('clickaaa')
 }
-//@ts-ignore
-ReactDOM.render(
-  <HomeDemo3 home2={444}>123</HomeDemo3>,
-  document.querySelector('#root')
-)
+document.querySelector('#root').appendChild(<App></App>)
