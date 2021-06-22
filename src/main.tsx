@@ -15,7 +15,7 @@ function createComponent(comp, props = {}, children = []) {
     return createElement(
       camelToDash(comp.name),
       props,
-      children.concat([comp(props).cloneNode(true)])
+      [comp(props).cloneNode(true)].concat(children)
     )
   } else {
     return createElement(comp, props, children)
@@ -42,7 +42,11 @@ function createElement(comp, props, children = []) {
       dom.appendChild(document.createTextNode(child))
     } else {
       const root = dom.shadowRoot ? dom.shadowRoot : dom
-      root.appendChild(child)
+      if (child instanceof DocumentFragment) {
+        root.appendChild(child)
+      } else {
+        dom.appendChild(child)
+      }
     }
   })
   return dom
@@ -54,8 +58,8 @@ function AppRoot(props) {
     <template>
       <div onClick={aaa}>
         <a href="www.baidu.com">123</a>
-        hello world
         <slot name="aaa">123</slot>
+        hello world
       </div>
     </template>
   )
