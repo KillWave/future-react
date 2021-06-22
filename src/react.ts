@@ -12,13 +12,20 @@ export default class React extends HTMLElement {
       if (!compDefine) {
         customElements.define(tagName, React)
       }
-      return createElement(
-        tagName,
-        props,
-        [comp(props).cloneNode(true)].concat(children)
-      )
+      return createElement(tagName, props, [comp(props)].concat(children))
     } else {
       return createElement(comp, props, children)
     }
+  }
+}
+
+export function useState(data) {
+  return [data, setState(data)]
+}
+
+function setState(data) {
+  return (fn) => {
+    const update = fn(data)
+    console.log('update: ', update)
   }
 }

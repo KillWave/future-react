@@ -1,8 +1,7 @@
 export function createElement(comp, props, children = []) {
   const dom = document.createElement(comp).content
-    ? document.createElement(comp).content
+    ? document.createElement(comp).content.cloneNode(true)
     : document.createElement(comp)
-
   const regx = /^on/
   if (comp != 'template') {
     for (let key in props) {
@@ -14,8 +13,8 @@ export function createElement(comp, props, children = []) {
   }
 
   children.forEach((child) => {
-    if (typeof child === 'string') {
-      dom.appendChild(document.createTextNode(child))
+    if (typeof child === 'string' || typeof child === 'number') {
+      dom.appendChild(document.createTextNode(child + ''))
     } else {
       const root = dom.shadowRoot ? dom.shadowRoot : dom
       if (child instanceof DocumentFragment) {

@@ -1,22 +1,20 @@
-import React from './react'
+import React, { useState } from './react'
 function AppRoot(props) {
   console.log('props: ', props)
+  const [num, updateNum] = useState(0)
+
   return (
     <template>
-      <div onClick={aaa}>
-        <a href="www.baidu.com">123</a>
-        <slot name="aaa">123</slot>
-        hello world
-      </div>
+      <button onClick={() => updateNum((d) => d + 1)}>hello world</button>
+      {num}
+      <slot name="aaa">123</slot>
     </template>
   )
 }
 
-function aaa() {
-  console.log('clickaaa')
-}
 document.querySelector('#root').appendChild(
-  <AppRoot>
+  <AppRoot name={'123'}>
+    123
     <div slot="aaa">123456</div>
   </AppRoot>
 )
