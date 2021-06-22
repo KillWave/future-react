@@ -3,15 +3,19 @@ function camelToDash(str: string) {
     return index ? '-' + item.toLowerCase() : item.toLowerCase()
   })
 }
-class React extends HTMLElement {}
+class React extends HTMLElement {
+  constructor() {
+    super()
+    this.attachShadow({ mode: 'open' })
+  }
+}
 function createComponent(comp, props = {}, children = []) {
   if (typeof comp === 'function') {
     customElements.define(camelToDash(comp.name), React)
-    console.log(comp(props))
     return createElement(
       camelToDash(comp.name),
       props,
-      children.concat([comp(props)])
+      children.concat([comp(props).cloneNode(true)])
     )
   } else {
     return createElement(comp, props, children)
@@ -19,7 +23,9 @@ function createComponent(comp, props = {}, children = []) {
 }
 
 function createElement(comp, props, children = []) {
-  let dom = document.createElement(comp)
+  const dom = document.createElement(comp).content
+    ? document.createElement(comp).content
+    : document.createElement(comp)
 
   const regx = /^on/
   if (comp != 'template') {
@@ -29,15 +35,14 @@ function createElement(comp, props, children = []) {
       }
       dom.setAttribute(key, props[key])
     }
-  } else {
-    dom = dom.content
   }
 
   children.forEach((child) => {
     if (typeof child === 'string') {
       dom.appendChild(document.createTextNode(child))
     } else {
-      dom.appendChild(child)
+      const root = dom.shadowRoot ? dom.shadowRoot : dom
+      root.appendChild(child)
     }
   })
   return dom
@@ -48,9 +53,9 @@ function AppRoot(props) {
   return (
     <template>
       <div onClick={aaa}>
-        <slot name="aaa"></slot>
-        hello world
         <a href="www.baidu.com">123</a>
+        hello world
+        <slot name="aaa">123</slot>
       </div>
     </template>
   )
