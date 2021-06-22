@@ -32,7 +32,7 @@ export default {
       extensions: ['.tsx', '.js', '.ts', '.json', 'jsx'],
     }),
     typescript(),
-    jsx({ factory: 'createElement', passUnknownTagsToFactory: true }),
+    jsx({ factory: 'createComponent', passUnknownTagsToFactory: true }),
     htmlTemplate({
       template: 'example/demo.html',
       target: 'dist/index.html',
