@@ -13,14 +13,16 @@ export function createElement(comp, props, children = []) {
   }
 
   children.forEach((child) => {
+    // console.log('child: ', child)
     if (typeof child === 'string' || typeof child === 'number') {
       dom.appendChild(document.createTextNode(child + ''))
     } else {
       const root = dom.shadowRoot ? dom.shadowRoot : dom
-      if (child instanceof DocumentFragment) {
-        root.appendChild(child)
+      if (child.$el instanceof DocumentFragment) {
+        root.appendChild(child.$el)
       } else {
-        dom.appendChild(child)
+        // console.log(child.$el)
+        dom.appendChild(child.$el)
       }
     }
   })

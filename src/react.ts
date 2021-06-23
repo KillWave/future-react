@@ -1,4 +1,4 @@
-import { createElement, camelToDash } from './utils'
+import { camelToDash, createElement } from './utils'
 
 export default class React extends HTMLElement {
   constructor() {
@@ -12,20 +12,18 @@ export default class React extends HTMLElement {
       if (!compDefine) {
         customElements.define(tagName, React)
       }
-      return createElement(tagName, props, [comp(props)].concat(children))
+      return createTreeOrElement(tagName, props, [comp(props)].concat(children))
     } else {
-      return createElement(comp, props, children)
+      return createTreeOrElement(comp, props, children)
     }
   }
 }
 
-export function useState(data) {
-  return [data, setState(data)]
-}
-
-function setState(data) {
-  return (fn) => {
-    const update = fn(data)
-    console.log('update: ', update)
+function createTreeOrElement(tag, props, children) {
+  return {
+    tag,
+    props,
+    children,
+    $el: createElement(tag, props, children),
   }
 }

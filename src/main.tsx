@@ -1,18 +1,21 @@
-import React, { useState } from './react'
+import React from './react'
 function AppRoot(props) {
   console.log('props: ', props)
-  const [num, updateNum] = useState(0)
 
   return (
     <template>
-      <button onClick={() => updateNum((d) => d + 1)}>hello world</button>
-      {num}
+      <button onClick={console.log(111)}>hello world</button>
+
       <slot name="aaa">123</slot>
     </template>
   )
 }
 
-document.querySelector('#root').appendChild(
+function render(comp) {
+  console.log('comp: ', comp)
+  document.querySelector('#root').appendChild(comp.$el)
+}
+render(
   <AppRoot name={'123'}>
     123
     <div slot="aaa">123456</div>
