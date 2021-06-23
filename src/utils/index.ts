@@ -1,3 +1,4 @@
+import { unRef } from '../hooks'
 export function createElement(comp, props, children = []) {
   const dom = document.createElement(comp).content
     ? document.createElement(comp).content.cloneNode(true)
@@ -18,11 +19,14 @@ export function createElement(comp, props, children = []) {
       dom.appendChild(document.createTextNode(child + ''))
     } else {
       const root = dom.shadowRoot ? dom.shadowRoot : dom
-      if (child.$el instanceof DocumentFragment) {
-        root.appendChild(child.$el)
+      console.log('child: ', child)
+      const el = child.$el
+      console.log('el: ', el)
+
+      if (el instanceof DocumentFragment) {
+        root.appendChild(el)
       } else {
-        // console.log(child.$el)
-        dom.appendChild(child.$el)
+        dom.appendChild(el)
       }
     }
   })
